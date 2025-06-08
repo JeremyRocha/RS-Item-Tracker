@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using GE_Flipper.Models;
 
 namespace GE_Flipper.Data
 {
@@ -9,5 +10,7 @@ namespace GE_Flipper.Data
             : base(options)
         {
         }
+        public DbSet<ItemCategory> ItemCategories { get; set; }
+        public DbSet<Items> Items { get; set; }
     }
 }
