@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GE_Flipper.Models
@@ -8,7 +9,7 @@ namespace GE_Flipper.Models
         public int ItemId { get; set; }  // Primary Key
 
         [Required]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public int GEId { get; set; }  // Grand Exchange ID
 
@@ -18,6 +19,7 @@ namespace GE_Flipper.Models
         [ForeignKey("ItemCategory")]
         public int ItemCategoryId { get; set; }
 
-        public ItemCategory ItemCategory { get; set; }
+        [ValidateNever]
+        public ItemCategory ItemCategory { get; set; } = null!;
     }
 }

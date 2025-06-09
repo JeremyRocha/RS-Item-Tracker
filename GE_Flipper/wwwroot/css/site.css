@@ -1,7 +1,36 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
+main {
+    background: url(https://www.runescape.com/img/rsp777/bg2.jpg) repeat-y center top;
+    background-size: contain;
+    height: 90vh;
+    width: 100vw;
+    color: yellow;
+}
+.container{
+    padding: 0px;
+    margin: 0px;
+}
+.navbar {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 0px !important;
+    background-color: saddlebrown !important;
+    color: black !important;
+}
+.footer{
+    padding: 5px;
+    background-color: saddlebrown;
+    color: black !important;
+}
+.border-bottom, .border-top{
+    border: 0px !important;
+}
+.nav-link{
+    color: black !important;
+}
 @media (min-width: 768px) {
   html {
     font-size: 16px;

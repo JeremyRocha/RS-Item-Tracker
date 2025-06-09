@@ -11,6 +11,6 @@ namespace GE_Flipper.Data
         {
         }
         public DbSet<ItemCategory> ItemCategories { get; set; }
-        public DbSet<Items> Items { get; set; }
+        public DbSet<Item> Items { get; set; }
     }
 }
