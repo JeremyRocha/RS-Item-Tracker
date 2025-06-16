@@ -8,12 +8,13 @@ namespace GE_Flipper.Models
     {
         public int ItemId { get; set; }  // Primary Key
 
-        [Required]
         public string? Name { get; set; }
 
-        public int GEId { get; set; }  // Grand Exchange ID
+        public string? Image { get; set; }
 
-        public decimal LatestPrice { get; set; }
+        [Required]
+        [Range(1, 100000)]
+        public int GameId { get; set; }  // Grand Exchange ID
 
         // Foreign key to ItemCategory
         [ForeignKey("ItemCategory")]
