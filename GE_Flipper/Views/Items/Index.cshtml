@@ -3,13 +3,16 @@
 @{
     ViewData["Title"] = "Index";
 }
+@section Styles{
+    <link rel="stylesheet" href="~/css/datatables.css" />
+}
 
 <h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table" id="item-table">
     <thead>
         <tr>
             <th>
@@ -40,7 +43,7 @@
                 @Html.DisplayFor(modelItem => item.GameId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ItemCategory.Description)
+                @Html.DisplayFor(modelItem => item.ItemCategory.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ItemId">Edit</a> |
@@ -51,3 +54,17 @@
 }
     </tbody>
 </table>
+@section  Scripts{
+    <script>
+        $(document).ready(function(){
+            $('#item-table').DataTable({
+                "columnDefs": [
+                    {
+                        "orderable": false,
+                        "targets": [2]
+                    }
+                ]
+            });
+        });
+    </script>
+}

@@ -46,12 +46,14 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - GE_Flipper by George Baxter(200582531), Adam Latimer and Jeremy Rocha(200618875). Course: Server-Side Scripting-ASP.NET. Code: COMP2084 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <p>&copy; 2025 - GE_Flipper by George Baxter(200582531), Adam Latimer and Jeremy Rocha(200618875). Course: Server-Side Scripting-ASP.NET. Code: COMP2084</p> 
+            <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/datatables.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

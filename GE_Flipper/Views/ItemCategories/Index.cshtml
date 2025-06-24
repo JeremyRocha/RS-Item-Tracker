@@ -3,13 +3,15 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+@section Styles {
+    <link rel="stylesheet" href="~/css/datatables.css" />
+}
 <h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table" id="cat-table">
     <thead>
         <tr>
             <th>
@@ -39,3 +41,21 @@
 }
     </tbody>
 </table>
+@section  Scripts {
+    <script>
+        $(document).ready(function(){
+            $('#cat-table').DataTable({
+                "columnDefs": [
+                    {
+                        "orderable": false,
+                        "targets": [1]
+                    },
+                    {
+                        "orderable": false,
+                        "targets": [2]
+                    }
+                ]
+            });
+        });
+    </script>
+}
