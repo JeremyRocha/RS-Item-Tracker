@@ -18,4 +18,5 @@
 **Entity Relationship Diagram**
 - One Category hold many Items and one Item holds many prices
 - Price only has model right now because we want to populate it using api so we are waiting to see if that gets covered in class
+- Potential for more relationships for user or tracking but we are keeping it simple for now and seeing what is covered in class
 ![02cfd0c98237735b7a164e52b556a6e8](https://github.com/user-attachments/assets/d5f76047-37ae-4119-9cec-a3952df2563a)
