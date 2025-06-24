@@ -9,9 +9,9 @@ namespace GE_Flipper.Models
         [Required]
         public int PriceID { get; set; }
         [Required]
-        public int currentPrice {  get; set; }
+        public int CurrentPrice {  get; set; }
         [Required]
-        public DateTime date { get; set; }
+        public DateTime Date { get; set; }
 
         [ForeignKey("Item")]
         public int ItemId { get; set; }
