@@ -4,7 +4,7 @@
 **Scaffolding, Model, Controller**
 - Category Controller and model is working and view were scaffolded. This should need no changes.
 - Item Controller and model is working right now and views are scaffolded. Table view will need editing once prices is working.
-- Item controller might need editing once we understand how api's working. Might be easier just to have ID get filled in and have api get the rest of the info using api's.
+- Item controller has been edited to use api to get item name and image when creating an item entry. Left edit raw just incase the API ever breaks or url changes but this could be changed.
 - Price only has model currently because we would like to get prices every so often through api and then add them to the table.
 - Price should only be added through code so it shouldn't require any views.
 
