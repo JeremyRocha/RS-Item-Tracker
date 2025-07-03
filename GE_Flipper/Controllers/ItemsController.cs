@@ -26,14 +26,15 @@ namespace GE_Flipper.Controllers
         // GET: Items
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = await _context.Items.Include(i => i.ItemCategory).ToListAsync();
+            var applicationDbContext = await _context.Items.Include(i => i.ItemCategory).ToListAsync(); //Gets items from databas and include item category
+            //Gets the latest price from database 
             var prices = await _context.Prices.GroupBy(price => price.ItemId).Select(entry => new
             {
                 ItemID = entry.Key,
                 currentPrice = entry.OrderByDescending(prices => prices.Date).FirstOrDefault().CurrentPrice
             }).ToListAsync();
-            ViewBag.CurrentPrice = prices.ToDictionary(p => p.ItemID, p => p.currentPrice);
-            return View(applicationDbContext);
+            ViewBag.CurrentPrice = prices.ToDictionary(p => p.ItemID, p => p.currentPrice); //Stores list of prices in view bag as dictionary with item id key
+            return View(applicationDbContext); //returns view
         }
 
         // GET: Items/Details/5

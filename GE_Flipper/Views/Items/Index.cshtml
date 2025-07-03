@@ -42,10 +42,10 @@
             </td>
             <td>
                     @{
-                        var prices = ViewBag.CurrentPrice as Dictionary<int, int>;
-                        var currentPrice = prices != null && prices.ContainsKey(item.ItemId) ? prices[item.ItemId] : 0;
+                        var prices = ViewBag.CurrentPrice as Dictionary<int, int>; //Grabs view bag as dictionary
+                        var currentPrice = prices != null && prices.ContainsKey(item.ItemId) ? prices[item.ItemId] : 0; //Grabs current price using the item id as key
                     }
-                    @currentPrice gp
+                    @currentPrice gp @*Displays current price*@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ItemCategory.Name)
