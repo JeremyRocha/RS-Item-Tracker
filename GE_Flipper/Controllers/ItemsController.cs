@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GE_Flipper.Data;
 using GE_Flipper.Models;
+using System.Text.Json;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace GE_Flipper.Controllers
 {
     public class ItemsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHttpClientFactory _httpClient;
 
-        public ItemsController(ApplicationDbContext context)
+        public ItemsController(ApplicationDbContext context, IHttpClientFactory httpClient)
         {
             _context = context;
+            _httpClient = httpClient;
         }
 
         // GET: Items
@@ -57,10 +61,27 @@ namespace GE_Flipper.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ItemId,Name,Image,GameId,ItemCategoryId")] Item item)
+        public async Task<IActionResult> Create([Bind("ItemId,GameId,ItemCategoryId")] Item item)
         {
             if (ModelState.IsValid)
             {
+                bool itemExsists = await _context.Items.AnyAsync(i => i.GameId == item.GameId);
+                if (itemExsists)
+                {
+                    ModelState.AddModelError("", "Item already Exists");
+                    ViewData["ItemCategoryId"] = new SelectList(_context.ItemCategories, "ItemCategoryId", "Name", item.ItemCategoryId);
+                    return View(item);
+                }
+                var client = _httpClient.CreateClient();
+                var apiLink = await client.GetAsync($"https://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item={item.GameId}");
+                if (apiLink.IsSuccessStatusCode)
+                {
+                    var getAPI = await apiLink.Content.ReadAsStringAsync();
+                    using var parseAPI = JsonDocument.Parse(getAPI);
+                    var osrsItem = parseAPI.RootElement.GetProperty("item");
+                    item.Name = osrsItem.GetProperty("name").GetString();
+                    item.Image = $"https://secure.runescape.com/m=itemdb_oldschool/obj_big.gif?id={item.GameId}";
+                }
                 _context.Add(item);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
