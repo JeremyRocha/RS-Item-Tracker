@@ -9,10 +9,10 @@ public class ItemCategory
     public int ItemCategoryId { get; set; }  // Primary Key
 
     [Required]
-    public string Name { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty; //Holds category name
     [Required]
-    public string Description { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty; //Holds category description
 
     [ValidateNever]
-    public ICollection<Item> Items { get; set; } = [];
+    public ICollection<Item> Items { get; set; } = []; //Holds entries for items
 }

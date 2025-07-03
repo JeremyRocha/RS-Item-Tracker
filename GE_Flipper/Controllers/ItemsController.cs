@@ -15,7 +15,7 @@ namespace GE_Flipper.Controllers
     public class ItemsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IHttpClientFactory _httpClient;
+        private readonly IHttpClientFactory _httpClient; //Adds Httpclient for api requests
 
         public ItemsController(ApplicationDbContext context, IHttpClientFactory httpClient)
         {
@@ -65,22 +65,22 @@ namespace GE_Flipper.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool itemExsists = await _context.Items.AnyAsync(i => i.GameId == item.GameId);
-                if (itemExsists)
+                bool itemExsists = await _context.Items.AnyAsync(i => i.GameId == item.GameId); //Bool for checking if item already exists
+                if (itemExsists) //If item does exists
                 {
-                    ModelState.AddModelError("", "Item already Exists");
+                    ModelState.AddModelError("", "Item already Exists"); //Adds error message so user know what happened
                     ViewData["ItemCategoryId"] = new SelectList(_context.ItemCategories, "ItemCategoryId", "Name", item.ItemCategoryId);
                     return View(item);
                 }
-                var client = _httpClient.CreateClient();
-                var apiLink = await client.GetAsync($"https://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item={item.GameId}");
-                if (apiLink.IsSuccessStatusCode)
+                var client = _httpClient.CreateClient(); //Creates a new instance of httpClient
+                var apiLink = await client.GetAsync($"https://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item={item.GameId}"); //Makes request using the link to get API values
+                if (apiLink.IsSuccessStatusCode) 
                 {
-                    var getAPI = await apiLink.Content.ReadAsStringAsync();
-                    using var parseAPI = JsonDocument.Parse(getAPI);
-                    var osrsItem = parseAPI.RootElement.GetProperty("item");
-                    item.Name = osrsItem.GetProperty("name").GetString();
-                    item.Image = $"https://secure.runescape.com/m=itemdb_oldschool/obj_big.gif?id={item.GameId}";
+                    var getAPI = await apiLink.Content.ReadAsStringAsync(); //Gets data from API as string
+                    using var parseAPI = JsonDocument.Parse(getAPI); //Parse the string from API
+                    var osrsItem = parseAPI.RootElement.GetProperty("item"); //Gets data associated with item 
+                    item.Name = osrsItem.GetProperty("name").GetString(); //Stores name from API in db
+                    item.Image = $"https://secure.runescape.com/m=itemdb_oldschool/obj_big.gif?id={item.GameId}"; //Store image string in db
                 }
                 _context.Add(item);
                 await _context.SaveChangesAsync();
