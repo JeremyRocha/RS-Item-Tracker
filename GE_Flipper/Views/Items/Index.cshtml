@@ -22,7 +22,7 @@
                 @Html.DisplayNameFor(model => model.Image)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.GameId)
+                Price
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ItemCategory)
@@ -41,7 +41,11 @@
                 <img src="@item.Image" alt="Item Icon" style="width: 25px; height: auto;" />
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.GameId)
+                    @{
+                        var prices = ViewBag.CurrentPrice as Dictionary<int, int>;
+                        var currentPrice = prices != null && prices.ContainsKey(item.ItemId) ? prices[item.ItemId] : 0;
+                    }
+                    @currentPrice gp
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ItemCategory.Name)
