@@ -4,6 +4,7 @@ using GE_Flipper.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GE_Flipper.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250703050200_PriceTable")]
+    partial class PriceTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,30 +71,6 @@ namespace GE_Flipper.Data.Migrations
                     b.HasKey("ItemCategoryId");
 
                     b.ToTable("ItemCategories");
-                });
-
-            modelBuilder.Entity("GE_Flipper.Models.Price", b =>
-                {
-                    b.Property<int>("PriceID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PriceID"));
-
-                    b.Property<int>("CurrentPrice")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PriceID");
-
-                    b.HasIndex("ItemId");
-
-                    b.ToTable("Prices");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -305,17 +284,6 @@ namespace GE_Flipper.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("ItemCategory");
-                });
-
-            modelBuilder.Entity("GE_Flipper.Models.Price", b =>
-                {
-                    b.HasOne("GE_Flipper.Models.Item", "Item")
-                        .WithMany()
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Item");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
