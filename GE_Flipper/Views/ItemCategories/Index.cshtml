@@ -1,4 +1,6 @@
-﻿@model IEnumerable<GE_Flipper.Models.ItemCategory>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@model IEnumerable<GE_Flipper.Models.ItemCategory>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,7 +11,10 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <a asp-action="Create">Create New</a>
+    }
 </p>
 <table class="table" id="cat-table">
     <thead>
@@ -32,11 +37,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ItemCategoryId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ItemCategoryId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ItemCategoryId">Delete</a>
+                <td>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                @: <a asp-action="Edit" asp-route-id="@item.ItemCategoryId">Edit</a> |
+                @: <a asp-action="Details" asp-route-id="@item.ItemCategoryId">Details</a> |
+                @: <a asp-action="Delete" asp-route-id="@item.ItemCategoryId">Delete</a>
+                    }
             </td>
+            
         </tr>
 }
     </tbody>
