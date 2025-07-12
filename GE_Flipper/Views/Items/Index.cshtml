@@ -55,14 +55,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ItemCategory.Name)
             </td>
-            
-                <td>
-                    @if (SignInManager.IsSignedIn(User))
-                    {
-               @: <a asp-action="Edit" asp-route-id="@item.ItemId">Edit</a> |
-               @: <a asp-action="Details" asp-route-id="@item.ItemId">Details</a> |
-               @: <a asp-action="Delete" asp-route-id="@item.ItemId">Delete</a>
-                    }
+            <td>
+            @if (SignInManager.IsSignedIn(User))
+                {
+                <text>
+                <a asp-action="Edit" asp-route-id="@item.ItemId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ItemId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ItemId">Delete</a>
+                </text>
+                }
             </td>
                 
         </tr>

@@ -37,14 +37,17 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
-                <td>
-                    @if (SignInManager.IsSignedIn(User))
-                    {
-                @: <a asp-action="Edit" asp-route-id="@item.ItemCategoryId">Edit</a> |
-                @: <a asp-action="Details" asp-route-id="@item.ItemCategoryId">Details</a> |
-                @: <a asp-action="Delete" asp-route-id="@item.ItemCategoryId">Delete</a>
-                    }
+            <td>
+            @if (SignInManager.IsSignedIn(User))
+                {
+                <text>
+                <a asp-action="Edit" asp-route-id="@item.ItemCategoryId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ItemCategoryId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ItemCategoryId">Delete</a>
+                </text>
+                }
             </td>
+
             
         </tr>
 }
