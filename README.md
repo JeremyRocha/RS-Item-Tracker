@@ -19,6 +19,12 @@ Allows user to create categories to hold items. User can then create entries for
 **Background service**
 - Created a class that inherits from background services in order to get the current price of items automatically. The code runs every 24 hours to grab the price for items in the item table, it then save that price entry to the price table.  
 
+**Login/Registration**
+- Created crud operations for registration using scaffolding, registration is working as intended and users are able to make accounts.
+- Login is working as intended and users are able to login so long as they use a registered account. User must be signed and  be an authorized account in order to preform crud operations.
+- Google sign in is currently a work in progress
+- Facebook Login is also currently a work in progress
+
 **Javascript Notes**
 - Want to add dynamic fill in for the name and item image url when creating an entry for items
 - Minor tweaks need to be made to the datatables used.
