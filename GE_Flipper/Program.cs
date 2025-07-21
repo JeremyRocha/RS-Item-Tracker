@@ -15,6 +15,16 @@ builder.Services.AddHostedService<PriceGetter>(); //Adds background task to the 
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+//  Google authentication to read ClientId and ClientSecret from appsettings.json to allow google sign in
+builder.Services.AddAuthentication()
+    .AddGoogle(options =>
+        {
+            IConfigurationSection googleAuthSettings = builder.Configuration.GetSection("Authentication:Google");
+            options.ClientId = googleAuthSettings["ClientId"];
+            options.ClientSecret = googleAuthSettings["ClientSecret"];
+        });
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -35,6 +45,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
