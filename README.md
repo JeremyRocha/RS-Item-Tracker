@@ -1,3 +1,5 @@
+**Azure Link**: https://geflipper20250625155408-b0ckegd0cufte0au.canadacentral-01.azurewebsites.net/
+
 **Application Summary**
 Allows user to create categories to hold items. User can then create entries for item by inputting the game id. Once item is in the database it will start tracking the prices of item. In the table for items it diplays the item name, image and price so user can see what items have value. Potential for some improvement but price tracking is implemented which is the main goal.
 
@@ -22,7 +24,7 @@ Allows user to create categories to hold items. User can then create entries for
 **Login/Registration**
 - Created crud operations for registration using scaffolding, registration is working as intended and users are able to make accounts.
 - Login is working as intended and users are able to login so long as they use a registered account. User must be signed and  be an authorized account in order to preform crud operations.
-- Google sign in is currently a work in progress
+- Google sign in implmented and functional
 - Facebook Login is also currently a work in progress
 
 **Javascript Notes**
