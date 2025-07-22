@@ -16,14 +16,21 @@ builder.Services.AddHostedService<PriceGetter>(); //Adds background task to the 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-//  Google authentication to read ClientId and ClientSecret from appsettings.json to allow google sign in
+//  Google authentication to read ClientId and ClientSecret from appsettings.json to allow Google sign in
 builder.Services.AddAuthentication()
     .AddGoogle(options =>
         {
             IConfigurationSection googleAuthSettings = builder.Configuration.GetSection("Authentication:Google");
             options.ClientId = googleAuthSettings["ClientId"];
             options.ClientSecret = googleAuthSettings["ClientSecret"];
-        });
+        })
+    // Facebook authentication to read AppId and AppSecret from appsettings.json to allow Facebook sign in
+    .AddFacebook(options =>
+            {
+                IConfigurationSection facebookAuthSettings = builder.Configuration.GetSection("Authentication:Facebook");
+                options.AppId = facebookAuthSettings["AppId"];
+                options.AppSecret = facebookAuthSettings["AppSecret"];
+            });
 
 builder.Services.AddControllersWithViews();
 
