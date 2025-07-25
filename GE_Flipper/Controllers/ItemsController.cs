@@ -94,6 +94,31 @@ namespace GE_Flipper.Controllers
                 }
                 _context.Add(item);
                 await _context.SaveChangesAsync();
+                try
+                {
+                    var apiPriceLink = await client.GetAsync($"https://secure.runescape.com/m=itemdb_oldschool/api/graph/{item.GameId}.json"); //Makes request using the link to get API values
+                    if (apiPriceLink.IsSuccessStatusCode)
+                    {
+                        var getPriceAPI = await apiPriceLink.Content.ReadAsStringAsync(); //Gets data from API as string
+                        using var parseAPI = JsonDocument.Parse(getPriceAPI); //Parse the string from API
+                        var osrsItemPrice = parseAPI.RootElement.GetProperty("daily"); //Gets data associated with item 
+                        var currentPriceString = osrsItemPrice.EnumerateObject().Last(); //Gets the latest price as string
+                        int currentPrice = currentPriceString.Value.GetInt32(); //Converts string to int
+
+                        var price = new Price //Variable for new price entry
+                        {
+                            ItemId = item.ItemId, //Set item id for FK
+                            CurrentPrice = currentPrice, //Set current price
+                            Date = DateTime.UtcNow //Sets the date with current date 
+                        };
+                        _context.Prices.Add(price); //Adds entry to the price table
+                        await _context.SaveChangesAsync(); //save changes to db
+                    }
+                }catch (Exception)
+                {
+                    ModelState.AddModelError("", "An Error Occurred"); //Adds error message
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ItemCategoryId"] = new SelectList(_context.ItemCategories, "ItemCategoryId", "Name", item.ItemCategoryId);
