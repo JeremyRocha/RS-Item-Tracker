@@ -67,7 +67,16 @@ h1{
 thead{
     color: white; /*Set text color of table head to white*/
 }
-tbody{
+th {
+    text-align: center !important;
+}
+td {
+    text-align: center !important;
+}
+.prices .dt-column-order{
+    position: absolute !important;
+}
+tbody {
     color: yellow; /*Set text color of table body to yellow*/
 }
 .row{
