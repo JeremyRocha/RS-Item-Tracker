@@ -9,6 +9,36 @@
     <link rel="stylesheet" href="~/css/datatables.css" />
 }
 
+@functions { /* Function to format the price into a more readable format
+             1,000 gp -> 1K, 1,000,000 gp -> 1M, 1,000,000,000 gp -> 1B */
+
+    string formatPrice(int price)
+    {
+        double coinAmount;
+        string gpSuffix; // Suffix for the value/price (K, M, B)
+
+        if (price < 1_000)
+            return $"{price} gp"; // Show exact price if less than 1000
+        else if (price < 1_000_000)
+        {
+            coinAmount = price / 1_000.0;
+            gpSuffix = "K";
+        }
+        else if (price < 1_000_000_000)
+        {
+            coinAmount = price / 1_000_000.0;
+            gpSuffix = "M";
+        }
+        else
+        {
+            coinAmount = price / 1_000_000_000.0;
+            gpSuffix = "B";
+        }
+
+        return $"{coinAmount:0.#}{gpSuffix}"; // Formats the price to one decimal place and appends suffix
+    }
+}
+
 <h1>Index</h1>
 
 <p>
@@ -50,7 +80,7 @@
                     var currentPrice = prices != null && prices.ContainsKey(item.ItemId) ? prices[item.ItemId] : 0; //Grabs current price using the item id as key
                 }
             <td data-sort="@currentPrice">
-                    @currentPrice gp @*Displays current price*@
+                    @formatPrice(currentPrice) @*Displays current price formatted with @formatPrice function*@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ItemCategory.Name)
