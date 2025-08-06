@@ -1,0 +1,11 @@
+﻿canvas{
+    max-width: 80%; /* Set mas width of chart */
+    margin-left: 10%; /* Shift chart to the left*/
+    min-height: 60vh; /* Set min view height */
+}
+h1{
+    padding: 20px; /* Add padding to h1 */
+    margin-bottom: 10px; /*Add margin bottom to h1*/
+    font-weight: bold; /* Set font weight to bold */
+    font-style: italic; /* Set font style to italic*/
+}

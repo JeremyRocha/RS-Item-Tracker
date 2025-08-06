@@ -1,7 +1,9 @@
 html {
     font-size: 14px;
 }
-
+body{
+    margin: 0; /* Remove margin from body */
+}
 main {
     background: url(https://www.runescape.com/img/rsp777/bg2.jpg) repeat-y center top; /*Set background image for main*/
     background-size: contain; /*Contains the background to element*/
@@ -22,11 +24,12 @@ main {
     color: black !important; /*Set text color to black*/
 }
 .footer{
-    padding: 5px; /*Adds padding to 5px*/
+    padding: 15px; /*Adds padding to 15px*/
     background-color: saddlebrown; /*Set background color*/
     color: black !important; /*Set text color to black*/
     white-space: normal !important; /*Set whitespace to normal*/
     position: inherit !important;/*Set position to inherit from doc*/
+    line-height: 30px !important; /* Set line height for footer*/
 }
 .border-bottom, .border-top{
     border: 0 !important; /*Remove border*/
@@ -42,6 +45,7 @@ main {
 h1{
     padding: 12px; /*Adds padding to h1*/
     margin: 0; /*Removes margin*/
+    font-weight: bold !important; /* Set font weight to bold*/
 }
 .text-center p{
     max-width: 45%; /*Set max width to 45%*/
@@ -63,6 +67,9 @@ h1{
 #item-table_wrapper, #cat-table_wrapper{
     max-width: 80%; /*Set max width to 80%*/
     margin-left: 10% /*Set margin left to 10% to shift content*/
+}
+a:hover{
+    opacity: 0.7; /* Change opactity of links on hover*/
 }
 thead{
     color: white; /*Set text color of table head to white*/

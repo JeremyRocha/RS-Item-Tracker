@@ -91,9 +91,10 @@
                 <text>
                 <a asp-action="Edit" asp-route-id="@item.ItemId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ItemId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ItemId">Delete</a>
+                <a asp-action="Delete" asp-route-id="@item.ItemId">Delete</a> |
                 </text>
                 }
+                <a asp-controller="Price" asp-action="Index" asp-route-id="@item.ItemId">History</a> @* Link for price view *@
             </td>
                 
         </tr>

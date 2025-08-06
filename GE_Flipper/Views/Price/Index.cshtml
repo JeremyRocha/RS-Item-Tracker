@@ -1,0 +1,75 @@
+﻿@using System.Text.Json @* Uses library to pass model data to JavaScript *@
+@model IEnumerable<GE_Flipper.Models.Price> //Binds model to view
+
+@{
+    var itemName = ViewData["ItemName"] as string; //Variable to hold the item name that was stored from controller
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/price.css"/> @* Links CSS to page *@
+}
+<h1>Price History for @itemName</h1> 
+
+@if (Model.Any()) //Check if there is any model
+{
+    <div class="container">
+        <canvas id = "priceHistory"></canvas>
+    </div>
+    <script src= "https://cdn.jsdelivr.net/npm/chart.js"></script> @* Connect Java script to page *@
+
+    <script>
+        const priceDates = @Html.Raw(JsonSerializer.Serialize(Model.Select(p => p.Date.ToString("yyyy-MM-dd")))); @*Variable for getting price dates for items*@
+        const prices = @Html.Raw(JsonSerializer.Serialize(Model.Select(p => p.CurrentPrice))); @*Variable for holding the current price that was stored with the date*@
+        const canvas = document.getElementById("priceHistory"); @* Selects the canvas elements *@
+               
+        const chart = new Chart(canvas, { @*Variable for creating a new chart*@
+            type: 'line', @* Set graph type to line *@
+            data: { @* Set data *@
+                labels: priceDates, @* Set labels as price dates *@
+                datasets: [{ 
+                    data: prices, @* Set data as price *@
+                    borderColor: 'yellow', @* Set color of line *@
+                    backgroundColor: 'transparent', @* Make background transparent*@
+                    fill: true, @* Set fill to true *@
+                    tension: 0, @* Set tension to 0 *@
+                    borderWidth: 5, @* Make line thicker*@
+                }]
+            },
+            options: {
+                maintainAspectRatio: false, @* Disable maintain aspect ration*@
+                plugins:{
+                    legend: {
+                        display: false @* Disable the legend*@
+                    }
+                },
+                scales:{
+                    y:{
+                        beginAtZero: true,  @* Set axis to begin at 0 *@
+                        grid:{
+                            display: true, @* display grid lines *@
+                            color: 'saddlebrown', @* set color of grid lines *@
+                            lineWidth: 0.5 @* Set line width of grid lines *@
+                        },
+                        ticks:{
+                            color: 'yellow' @* set color of labels *@
+                        }
+                    },
+                    x:{
+                        beginAtZero: true,  @* Set axis to begin at 0 *@
+                        grid:{
+                            display: true, @* set color of grid lines *@
+                            color: 'saddlebrown', @* display grid lines *@
+                            lineWidth: 0.3 @* Set line width of grid lines *@
+                        },
+                         ticks:{
+                            color: 'yellow' @* set color of labels *@
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+}
+else
+{
+    <p>No prices found for item.</p> //Return no item found message
+}
