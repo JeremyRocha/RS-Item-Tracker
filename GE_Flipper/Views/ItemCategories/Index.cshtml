@@ -11,7 +11,7 @@
 <h1>Index</h1>
 
 <p>
-    @if (SignInManager.IsSignedIn(User))
+    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
     {
         <a asp-action="Create">Create New</a>
     }
@@ -38,13 +38,18 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-            @if (SignInManager.IsSignedIn(User))
+                @if (SignInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
                 {
                 <text>
                 <a asp-action="Edit" asp-route-id="@item.ItemCategoryId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ItemCategoryId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.ItemCategoryId">Delete</a>
                 </text>
+                }else if(SignInManager.IsSignedIn(User))
+                {
+                 <text>
+                 <a asp-action="Details" asp-route-id="@item.ItemCategoryId">Details</a>
+                 </text>
                 }
             </td>
 

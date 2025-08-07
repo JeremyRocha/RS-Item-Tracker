@@ -14,17 +14,17 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" readonly/>
+                <input asp-for="Name" class="form-control" id="itemName" readonly/>
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" readonly/>
+                <input asp-for="Image" class="form-control" id="imageLink" readonly/>
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="GameId" class="control-label"></label>
-                <input asp-for="GameId" class="form-control" />
+                <input asp-for="GameId" class="form-control" id="gameId" />
                 <span asp-validation-for="GameId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -44,4 +44,28 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        const gameField = document.getElementById("gameId");  //Variable for gameid element
+        const nameField = document.getElementById("itemName"); //Variable for item name element
+        const imageField = document.getElementById("imageLink"); //Variable for image field element
+
+        gameField.addEventListener("change", populateFields); //Add event listener to game field that calls function
+        gameField.addEventListener("keyup", populateFields); //Add event listener to game field that calls function
+
+        async function populateFields()
+        {
+            const response = await fetch(`/Items/GetJsonForJs?id=${gameField.value}`); //Variable for fetching api
+            if(response.ok)//If respone is ok
+            {
+             const data = await response.json(); //Store data from json in variable
+           
+                nameField.value = data.name; //Set value of name field
+                imageField.value = data.image; //Set value of image field
+            }else
+            {
+                nameField.value = "No item attached to id"; //Set value of name field 
+                imageField.value = "No item attached to id"; //Set value of image field
+            }
+        }
+    </script>
 }

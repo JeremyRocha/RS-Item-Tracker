@@ -42,9 +42,12 @@
 <h1>Index</h1>
 
 <p>
-    @if (SignInManager.IsSignedIn(User))
+    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
     {
         <a asp-action="Create">Create New</a>
+    }else if (!SignInManager.IsSignedIn(User))
+    {
+        <p> Log in to view item history </p>
     }
 </p>
 <table class="table" id="item-table">
@@ -86,15 +89,22 @@
                 @Html.DisplayFor(modelItem => item.ItemCategory.Name)
             </td>
             <td>
-            @if (SignInManager.IsSignedIn(User))
+            @if (SignInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
                 {
                 <text>
                 <a asp-action="Edit" asp-route-id="@item.ItemId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ItemId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.ItemId">Delete</a> |
+                <a asp-controller="Price" asp-action="Index" asp-route-id="@item.ItemId">History</a> @* Link for price view *@     
                 </text>
                 }
-                <a asp-controller="Price" asp-action="Index" asp-route-id="@item.ItemId">History</a> @* Link for price view *@
+                else if(SignInManager.IsSignedIn(User))
+                {
+                <text>
+                <a asp-action="Details" asp-route-id="@item.ItemId">Details</a> |
+                <a asp-controller="Price" asp-action="Index" asp-route-id="@item.ItemId">History</a> @* Link for price view *@     
+                </text>
+                }
             </td>
                 
         </tr>

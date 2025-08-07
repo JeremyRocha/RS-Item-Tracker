@@ -2,6 +2,7 @@
 using GE_Flipper.Models;
 using System.Linq;
 using GE_Flipper.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GE_Flipper.Controllers
 {
@@ -13,6 +14,7 @@ namespace GE_Flipper.Controllers
         {
             _context = context; //Intializes variable to get data from db
         }
+        [Authorize]
         public IActionResult Index(int id)
         {
             //Variable for holding item name. Selects the name of item where item id equals the id passed

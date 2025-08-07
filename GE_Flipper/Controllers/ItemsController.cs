@@ -39,6 +39,7 @@ namespace GE_Flipper.Controllers
         }
 
         // GET: Items/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -58,7 +59,7 @@ namespace GE_Flipper.Controllers
         }
 
         // GET: Items/Create
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             ViewData["ItemCategoryId"] = new SelectList(_context.ItemCategories, "ItemCategoryId", "Name");
@@ -68,7 +69,7 @@ namespace GE_Flipper.Controllers
         // POST: Items/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ItemId,GameId,ItemCategoryId")] Item item)
@@ -126,7 +127,7 @@ namespace GE_Flipper.Controllers
         }
 
         // GET: Items/Edit/5
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -146,7 +147,7 @@ namespace GE_Flipper.Controllers
         // POST: Items/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ItemId,Name,Image,GameId,ItemCategoryId")] Item item)
@@ -181,7 +182,7 @@ namespace GE_Flipper.Controllers
         }
 
         // GET: Items/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -201,7 +202,7 @@ namespace GE_Flipper.Controllers
         }
 
         // POST: Items/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -219,6 +220,27 @@ namespace GE_Flipper.Controllers
         private bool ItemExists(int id)
         {
             return _context.Items.Any(e => e.ItemId == id);
+        }
+
+        [HttpGet]
+        //Method for getting api to pass to javascript due to CORS issue
+        public async Task<IActionResult> GetJsonForJs(int id)
+        {
+            var client = _httpClient.CreateClient(); //Creates a new instance of httpClient
+            var apiLink = await client.GetAsync($"https://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item={id}"); //Makes request using the link to get API values
+            if (!apiLink.IsSuccessStatusCode) //Check if status code was a success
+            {
+                return NotFound(); //Return not found
+            }
+            var getAPI = await apiLink.Content.ReadAsStringAsync(); //Gets data from API as string
+            using var parseAPI = JsonDocument.Parse(getAPI); //Parse the string from API
+            var osrsItem = parseAPI.RootElement.GetProperty("item"); //Gets data associated with item 
+            var infoForJson = new
+            {
+                name = osrsItem.GetProperty("name").GetString(), //Store item name to name key
+                image = $"https://secure.runescape.com/m=itemdb_oldschool/obj_big.gif?id={id}" //Store image url to image key
+            };
+            return Json(infoForJson); //Returns the json file
         }
     }
 }

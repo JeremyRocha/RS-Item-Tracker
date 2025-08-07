@@ -1,4 +1,6 @@
-﻿@model GE_Flipper.Models.Item
+﻿@using Microsoft.AspNetCore.Identity
+@model GE_Flipper.Models.Item
+@inject SignInManager<IdentityUser> SignInManager
 
 @{
     ViewData["Title"] = "Details";
@@ -37,6 +39,13 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.ItemId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model?.ItemId">Edit</a> 
+        <a asp-action="Index">Back to List</a>
+    }
+    else
+    {
+        <a asp-action="Index">Back to List</a>
+    }
 </div>

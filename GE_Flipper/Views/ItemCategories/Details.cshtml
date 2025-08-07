@@ -1,4 +1,6 @@
-﻿@model GE_Flipper.Models.ItemCategory
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@model GE_Flipper.Models.ItemCategory
 
 @{
     ViewData["Title"] = "Details";
@@ -25,6 +27,13 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.ItemCategoryId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model?.ItemCategoryId">Edit</a>
+        <a asp-action="Index">Back to List</a>
+    }
+    else
+    {
+        <a asp-action="Index">Back to List</a>
+    }
 </div>
