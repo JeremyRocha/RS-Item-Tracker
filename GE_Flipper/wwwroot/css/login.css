@@ -1,0 +1,26 @@
+﻿.row {
+    display: flex; /* Make display flex */
+    align-items: center; /* Align items to center*/
+    flex-direction: column; /* set flex direction*/
+}
+button {
+    background-color: darkred !important; /* Set background color*/
+    border-color: darkred !important; /* Set border color */
+    color: black !important; /* Set text color */
+    margin: 0 !important; /* Remove margin */
+}
+.form-floating label {
+    color: black; /* Set text color */
+}
+a {
+    color: yellow; /* Set link color */
+}
+#loginLink{
+    padding: 10px; /* Set padding */
+}
+@media (max-width: 767px) {
+    .row {
+        max-width: 80%; /* Set max width */
+        margin-left: 10%; /* Set margin left*/
+    }
+}

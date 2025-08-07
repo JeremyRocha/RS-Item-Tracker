@@ -31,6 +31,9 @@ main {
     position: inherit !important;/*Set position to inherit from doc*/
     line-height: 30px !important; /* Set line height for footer*/
 }
+.footer a{
+    color: yellow; /* Set color of link*/
+}
 .border-bottom, .border-top{
     border: 0 !important; /*Remove border*/
 }
@@ -46,6 +49,8 @@ h1{
     padding: 12px; /*Adds padding to h1*/
     margin: 0; /*Removes margin*/
     font-weight: bold !important; /* Set font weight to bold*/
+    color: darkred;
+    text-shadow: 0 0 2px yellow;
 }
 .text-center p{
     max-width: 45%; /*Set max width to 45%*/
@@ -68,6 +73,9 @@ h1{
     max-width: 80%; /*Set max width to 80%*/
     margin-left: 10% /*Set margin left to 10% to shift content*/
 }
+a{
+    color: darkred; /* Set link color*/
+}
 a:hover{
     opacity: 0.7; /* Change opactity of links on hover*/
 }
@@ -83,16 +91,31 @@ td {
 .prices .dt-column-order{
     position: absolute !important;
 }
+
 tbody {
     color: yellow; /*Set text color of table body to yellow*/
 }
 .row{
     justify-content: center; /*Centers content in row*/
 }
+p a{
+    color: yellow; /* Set link color*/
+}
+.btn-primary{
+    background-color: darkred; /* Set background color*/
+    border-color : darkred; /* Set border color*/
+    color: black; /* Set text color*/
+    margin: 10px; /* Set margin */
+}
 @media (min-width: 768px) {
-  html {
+    html {
     font-size: 16px;
   }
+}
+@media (max-width: 600px){
+    .nav-item {
+        font-size: 12px;
+    }
 }
 @media (max-width: 517px){
     #item-table_wrapper, #cat-table_wrapper {

@@ -1,0 +1,31 @@
+﻿.row {
+    display: flex; /* Make display flex */
+    align-items: center; /* Align items to center*/
+    flex-direction: column; /* set flex direction*/
+}
+
+label {
+    color: black; /* Set text color */
+}
+
+.col-md-4 {
+    padding-bottom: 25px; /* Set bottom padding */
+}
+button {
+    background-color: darkred !important; /* Set background color*/
+    border-color: darkred !important; /* SEt border color*/
+    color: black !important; /* Set text color */
+    margin: 0 !important; /* Remove margin */
+}
+p {
+    display: flex; /* Set display to flex */
+    gap: 20px; /* Set gap*/
+    justify-content: center; /* move content to center */
+}
+
+@media (max-width: 767px) {
+    .row {
+        max-width: 80%; /* Set max width*/
+        margin-left: 10%; /* Set left margin*/
+    }
+}

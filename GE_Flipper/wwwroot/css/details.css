@@ -1,0 +1,7 @@
+﻿main div{
+    max-width: 80%; /* Set max width*/
+    margin-left: 10%; /* Set margin left*/
+}
+dt{
+    color: darkred; /*Set text color*/
+}
