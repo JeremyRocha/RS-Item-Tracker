@@ -51,6 +51,13 @@
             <h3>Use another service to log in.</h3>
             <hr />
             @{
+                // Dictionary that stores logos for authentication providers, used to display icons next to the "Sign in with" buttons
+                var authLogos = new Dictionary<string, string>
+                {
+                    {"Google", "https://developers.google.com/identity/images/g-logo.png" },
+                    {"Facebook", "https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" },
+                    {"GitHub", "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"}
+                };
                 if ((Model.ExternalLogins?.Count ?? 0) == 0)
                 {
                     <div>
@@ -66,20 +73,15 @@
                         <div>
                             <p>
                                 @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    if (provider.Name == "Google")
-                                    {
-                                        <button type="submit" class="btn btn-primary w-80 mb-2" name="provider" value="@provider.Name" title="Sign in with Google"><img src="https://developers.google.com/identity/images/g-logo.png" alt="Google Logo" width="25" height="25" /> Sign in with Google</button>
-                                    }
-                                    else if (provider.Name == "Facebook")
-                                    {
-                                        <button type ="submit" class="btn btn-primary w-80 mb-2" name="provider" value="@provider.Name" title="Sign in with Facebook"><img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" alt="Facebook Logo" width="25" height="25" />Sign in with Facebook</button>
-                                    
-                                    }
-                                    else
-                                    {
-                                        <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                    }
+								{   // Getting the logo URL for the provider if it exists in the dictionary, otherwise set to null
+                                    var authLogo = authLogos.ContainsKey(provider.Name) ? authLogos[provider.Name] : null;
+                                    <button type="submit" class="btn btn-primary w-80 mb-2" name="provider" value="@provider.Name" title="Login with @provider.DisplayName">
+                                        @if (authLogo != null)
+                                        {
+                                            <img src="@authLogo" alt="@provider.DisplayName Logo" width="25" height="25" />
+                                        }
+                                        Sign in with @provider.DisplayName
+                                    </button>
                                 }
                             </p>
                         </div>

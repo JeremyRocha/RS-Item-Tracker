@@ -17,7 +17,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-//  Google authentication to read ClientId and ClientSecret from appsettings.json to allow Google sign in
+// Configuring authentication services using credentials from appsettings.json
 builder.Services.AddAuthentication()
     .AddGoogle(options =>
         {
@@ -25,13 +25,18 @@ builder.Services.AddAuthentication()
             options.ClientId = googleAuthSettings["ClientId"];
             options.ClientSecret = googleAuthSettings["ClientSecret"];
         })
-    // Facebook authentication to read AppId and AppSecret from appsettings.json to allow Facebook sign in
     .AddFacebook(options =>
             {
                 IConfigurationSection facebookAuthSettings = builder.Configuration.GetSection("Authentication:Facebook");
                 options.AppId = facebookAuthSettings["AppId"];
                 options.AppSecret = facebookAuthSettings["AppSecret"];
-            });
+            })
+    .AddGitHub(options =>
+        {
+            IConfigurationSection gitHubAuthSettings = builder.Configuration.GetSection("Authentication:GitHub");
+            options.ClientId = gitHubAuthSettings["ClientId"];
+            options.ClientSecret = gitHubAuthSettings["ClientSecret"];
+        });
 
 builder.Services.AddControllersWithViews();
 
@@ -56,19 +61,19 @@ app.UseRouting();
 
 app.UseAuthentication();
 
-app.Use(async (context, next) => //function for adding role to user after authentication
+app.Use(async (context, next) => // Function for adding role to user after authentication
 {
-    if (context.User.Identity.IsAuthenticated) //If user is authenticated
+    if (context.User.Identity.IsAuthenticated) // If user is authenticated
     {
-        var userManager = context.RequestServices.GetRequiredService<UserManager<IdentityUser>>(); //Variable for storin Identity user service
+        var userManager = context.RequestServices.GetRequiredService<UserManager<IdentityUser>>(); // Variable for storin Identity user service
 
-        var user = await userManager.GetUserAsync(context.User); //Finds user in DB and stores in variable
-        if (user != null) //If user is not null 
+        var user = await userManager.GetUserAsync(context.User); // Finds user in DB and stores in variable
+        if (user != null) // If user is not null 
         {
-            var roles = await userManager.GetRolesAsync(user); //Finds user role and store in variable
-            if (!roles.Contains("Customer") && !roles.Contains("Administrator")) //If role doesn't contain either customer or admin
+            var roles = await userManager.GetRolesAsync(user); // Finds user role and store in variable
+            if (!roles.Contains("Customer") && !roles.Contains("Administrator")) // If role doesn't contain either customer or admin
             {
-                await userManager.AddToRoleAsync(user, "Customer"); //Assign role to customer
+                await userManager.AddToRoleAsync(user, "Customer"); // Assign role to customer
             }
         }
     }
